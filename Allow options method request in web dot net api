@@ -1,0 +1,66 @@
+Or it may say like method not allowed in network console...
+
+dot net sample function to accept post request
+[HttpPost]
+[Route("api/SugarMountain/RequestOrderFormInsert")]
+public int RequestOrderFormInsert([FromBody] VMLocationCard obj){}
+
+
+
+
+
+in webconfig file
+
+<system.webServer>
+    <httpProtocol>
+      <customHeaders>
+        <add name="Access-Control-Allow-Origin" value="*" />
+        <add name="Access-Control-Allow-Headers" value="Content-Type" />
+        <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
+      </customHeaders>
+    </httpProtocol>
+</system.webServer>
+
+<system.webServer>
+<handlers>
+      <remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+      <!--<remove name="OPTIONSVerbHandler" /> -->
+      <remove name="TRACEVerbHandler" />
+      <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="*" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
+    </handlers>
+</system.webServer>
+
+from ionic or webbrowser request from where a preflight request with options send automatically. You can check it is happening or not from network in console of browser.
+
+and make a request like this in ionic
+
+
+    //value should be the parameters which you need to send in the post request
+     let  value = [{
+
+    
+	'HOName': this.formAddress.houseNumber,
+	'SiteStreet': this.formAddress.streetNumber,
+	'SiteCity': this.formAddress.city,
+	'SiteState': this.formAddress.state,
+  'uderGroundObject':this.underGoesitemValue,
+	'ColorAndStyle': this.formAddress.color,
+	'RiderInformation': form.value.RiderInformation,
+	'RiderInformation2': form.value.RiderInformation1,
+	'RiderInformation3': form.value.RiderInformation2,
+
+	'Directions': form.value.direction,
+
+	'EmailOrderImages': form.value.getOrderPicture,
+
+  'Panel': form.value.panel,
+
+
+   }];
+    
+
+    return this.http.post(this.baseURL+'/RequestOrderFormInsert', value)
+
+
+
+
